@@ -49,3 +49,19 @@ const propiedadesJSON = [
     }
   ];
   
+//función para rellenar el HTML dinamicamente
+const rellenaHtml = function (name, description, src, rooms, m) {
+  return `
+  <div class="propiedad">
+      <div class="img" style="background-image: url('${src}')"></div>
+      <section>
+          <h5>${name}</h5>
+          <div class="d-flex justify-content-between">
+              <p>Cuartos: ${rooms}</p>
+              <p>Metros: ${m}</p>
+          </div>
+          <p class="my-3">${description}</p>
+          <button class="btn btn-info ">Ver más</button>
+      </section>
+  </div>`;
+};

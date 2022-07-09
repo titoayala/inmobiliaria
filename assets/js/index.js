@@ -52,6 +52,7 @@ const propiedadesJSON = [
 //Utilizaré && para realizar los filtros de búsqueda. Las 3 condiciones deben ser verdaderas para que se muestre
 
 const contenedorPropiedades = document.querySelector(".propiedades");
+const totalPropiedades = document.querySelector("#cantidad");
 
 //función para rellenar el HTML dinámicamente
 function formatoHtml(departamento) {
@@ -76,6 +77,7 @@ function muestraPropiedades() {
     html += formatoHtml(departamento);
   }
   contenedorPropiedades.innerHTML = html;
+  totalPropiedades.innerHTML = propiedadesJSON.length;
 }
 
 muestraPropiedades(); //Llamado a función reutilizable para mostrar las propiedades filtradas.

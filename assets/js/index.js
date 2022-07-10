@@ -49,35 +49,63 @@ const propiedadesJSON = [
   }
 ];
 
-//Utilizaré && para realizar los filtros de búsqueda. Las 3 condiciones deben ser verdaderas para que se muestre
-
-const contenedorPropiedades = document.querySelector(".propiedades");
+//VARIABLES GLOBALES
+const propiedades = document.querySelector(".propiedades");
 const totalPropiedades = document.querySelector("#cantidad");
+const boton = document.querySelector("#boton");
 
 //función para rellenar el HTML dinámicamente
-function formatoHtml(departamento) {
+function formatoHtml(inmueble) {
   return `
-  <div class="propiedad">
-    <div class="img" style="background-image: url('${departamento.src}')"></div>
-    <section>
-      <h5>${departamento.name}</h5>
-      <div class="d-flex justify-content-between">
-          <p>Cuartos: ${departamento.rooms}</p>
-          <p>Metros: ${departamento.m}</p>
-      </div>
-      <p class="my-3">${departamento.description}</p>
-      <button class="btn btn-info ">Ver más</button>
-    </section>
-  </div>`;
+    <div class="propiedad">
+      <div class="img" style="background-image: url('${inmueble.src}')"></div>
+      <section>
+        <h5>${inmueble.name}</h5>
+        <div class="d-flex justify-content-between">
+            <p>Cuartos: ${inmueble.rooms}</p>
+            <p>Metros: ${inmueble.m}</p>
+        </div>
+        <p class="my-3">${inmueble.description}</p>
+        <button class="btn btn-info ">Ver más</button>
+      </section>
+    </div>
+  `;
 };
 
+function filtro() { 
+  const cuartos = document.querySelector("#cuartos").value;
+  const mtsDesde = document.querySelector("#min").value;
+  const mtsHasta = document.querySelector("#max").value;
+
+  if (cuartos==0 || mtsDesde==0 || mtsHasta==0){
+    alert(" Todos los campos son requeridos\n\ Los valores deben ser mayor a cero");
+    return;
+  }
+  console.log(cuartos, mtsDesde, mtsHasta)
+
+  let html = "";
+  let contador = 0;
+  for (const inmueble of propiedadesJSON) { 
+    //Muestra las tarjetas que cumplan con las tres condiciones!
+    if (inmueble.rooms >= cuartos && inmueble.m >= mtsDesde && inmueble.m <= mtsHasta) {
+      html += formatoHtml(inmueble);
+      contador ++;
+    }
+  }
+  propiedades.innerHTML = html;
+  totalPropiedades.innerHTML = contador;
+}
+
+boton.addEventListener('click', filtro) //Llamado a la función FILTRO después de apretar el botón Buscar
+
+//Función para mostrar las propiedades en la primera carga
 function muestraPropiedades() {
   let html = "";
-  for (const departamento of propiedadesJSON) { //ciclo FOR OF sencillo para recorrer el arreglo de objetos
-    html += formatoHtml(departamento);
+  for (const todas of propiedadesJSON) { //ciclo FOR OF sencillo para recorrer el arreglo de objetos
+    html += formatoHtml(todas);
   }
-  contenedorPropiedades.innerHTML = html;
+  propiedades.innerHTML = html;
   totalPropiedades.innerHTML = propiedadesJSON.length;
 }
 
-muestraPropiedades(); //Llamado a función reutilizable para mostrar las propiedades filtradas.
+muestraPropiedades(propiedades);
